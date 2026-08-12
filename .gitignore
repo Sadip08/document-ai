@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+ENV/
+
+# Data & Models (Do not upload heavy files to GitHub)
+data/raw/
+data/processed/
+data/annotations/
+data/splits/
+models/*.pt
+models/*.pth
+models/*.onnx
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
