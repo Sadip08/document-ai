@@ -6,3 +6,4 @@ matplotlib
 PyMuPDF
 Pillow
 pytesseract
+ultralytics
