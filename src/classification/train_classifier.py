@@ -80,7 +80,7 @@ def train_doc_classifier(data_dir, num_epochs=10):
     return model, class_names
 
 if __name__ == "__main__":
-    data_dir = "data/splits/docs_classification"
+    data_dir = "data/splits/doc_classification"
     if not os.path.exists(data_dir):
         raise ValueError(f"Data directory not found: {data_dir}")
     train_doc_classifier(data_dir, num_epochs=10)

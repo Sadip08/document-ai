@@ -24,6 +24,7 @@ def train_layout_detector(data_yml_path, epochs=50, img_size=640):
         project = models_dir,
         name = "layout_detection_exp",
         save = True,
+        exist_ok = True,
     )
 
     return results
