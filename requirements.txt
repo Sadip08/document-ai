@@ -7,3 +7,6 @@ PyMuPDF
 Pillow
 pytesseract
 ultralytics
+fastapi
+uvicorn
+python-multipart
