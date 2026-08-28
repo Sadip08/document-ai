@@ -2,17 +2,16 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 import torch
-from torch import nn
-from torch.optim import Adam
+from torch import nn, optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, models, transforms
 
 def train_doc_classifier(data_dir, num_epochs=10):
     # Define data transformations
-    # ResNet expects 224x224 images, so we resize and normalize the images accordingly
     data_transforms = {
         'train' :  transforms.Compose([
-            transforms.Resize((224,224)),
+            transforms.RandomResizedCrop(224, scale=(0.8,1.0)),
+            transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ]),
@@ -30,6 +29,8 @@ def train_doc_classifier(data_dir, num_epochs=10):
     print("Loading pre-trained ResNet model")
     model = models.resnet18(weights= models.ResNet18_Weights.DEFAULT)
 
+    for param in model.parameters():
+        param.requires_grad = False
     # Modify the final layer to match the number of classes in our dataset
     num_features = model.fc.in_features
     model.fc = nn.Linear(num_features, len(class_names))
@@ -39,7 +40,7 @@ def train_doc_classifier(data_dir, num_epochs=10):
     model = model.to(device)
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = Adam(model.parameters(), lr=0.001)
+    optimizer = optim.SGD(model.fc.parameters(), lr=0.001,  momentum = 0.9)
 
     # Training loop
     print("Starting training...")
@@ -80,7 +81,7 @@ def train_doc_classifier(data_dir, num_epochs=10):
     return model, class_names
 
 if __name__ == "__main__":
-    data_dir = "data/splits/doc_classification"
+    data_dir = "data/splits/doc_classification/train"
     if not os.path.exists(data_dir):
         raise ValueError(f"Data directory not found: {data_dir}")
     train_doc_classifier(data_dir, num_epochs=10)
