@@ -10,3 +10,6 @@ ultralytics
 fastapi
 uvicorn
 python-multipart
+datasets>=2.19
+huggingface_hub>=0.23
+imagehash>=4.3

@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = 'TRUE'
 
-def train_layout_detector(data_yml_path, epochs=50, img_size=640):
+def train_layout_detector(data_yml_path, epochs=50, img_size=1280):
     """
     Fine-tunes a pretrained YOLOv8 model on the document layout dataset.
     """
@@ -25,6 +25,12 @@ def train_layout_detector(data_yml_path, epochs=50, img_size=640):
         name = "layout_detection_exp",
         save = True,
         exist_ok = True,
+        #Augment specific to documents
+        hsv_v = 0.4, # adjust brightness
+        degrees = 5.0, # adjust rotation
+        scale = 0.3, # adjust scale
+        fliplr = 0.0, # Turn off horizontal flipping
+        flipud = 0.0, # Turn off vertical flipping
     )
 
     return results
