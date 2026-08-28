@@ -6,7 +6,10 @@ import fitz
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
+
 from src.orchestration.document_ai import Document_AI_Pipeline
 
 app = FastAPI()
@@ -18,8 +21,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-YOLO_PATH = "E:\\document-ai\\models\\layout_detection_exp\\weights\\best.pt"
-CLASSIFIER_PATH = "E:\\document-ai\\models\\doc_classifier_resnet18.pth"
+YOLO_PATH = os.path.join(ROOT_DIR, "models", "layout_detection_exp", "weights", "best.pt")
+CLASSIFIER_PATH = os.path.join(ROOT_DIR, "models", "doc_classifier_resnet18.pth")
 
 try:
     pipeline = Document_AI_Pipeline(YOLO_PATH, CLASSIFIER_PATH)
